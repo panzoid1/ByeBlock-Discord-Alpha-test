@@ -13,10 +13,24 @@ I will be updating project and once this will full project for use I let you kno
 
 That's All.
 
-⚠️⚠️⚠️ERRORS THAT WE KNOW ⚠️⚠️⚠️
+# Why is it better than a regular discord ❓
+1. You don't need to update the app every time, as it always updates itself ✔️
+2. The application weighs very little ✔️
+3. All functions work normally, you can use Discord Integration ✔️
+4. This is official and we do not collect any data about you, and therefore the code is open ✔️
+5. Your opinion is important to us ✔️
+
+
+# ⚠️⚠️⚠️ERRORS THAT WE KNOW ⚠️⚠️⚠️
         1. SHARE SCREEN
     2. Can't Open All Settings
 we are trying our best to fix the errors, if you find an error, then Help-Telegram Support
 
-# Your favorite SouthEast
-Thank you for testing
+# What ways can I bypass the locks ❓
+1. Proxy 2. Vpn (in the future) 3. GoodBye Dpi (in the future)
+
+# We will develop the code to the end, and for this we need your support 👷‍♂️
+We will be very grateful if you give us your feedback
+
+# Your favorite SouthEast 💗
+Thank you for testing 💘
