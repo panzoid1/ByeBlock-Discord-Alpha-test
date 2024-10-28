@@ -16,9 +16,8 @@ That's All.
 # Why is it better than a regular discord ❓
 1. You don't need to update the app every time, as it always updates itself ✔️
 2. The application weighs very little ✔️
-3. All functions work normally, you can use Discord Integration ✔️
-4. This is official and we do not collect any data about you, and therefore the code is open ✔️
-5. Your opinion is important to us ✔️
+3. This is official and we do not collect any data about you, and therefore the code is open ✔️
+4. Your opinion is important to us ✔️
 
 
 # ⚠️⚠️⚠️ERRORS THAT WE KNOW ⚠️⚠️⚠️
