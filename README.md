@@ -25,7 +25,10 @@ That's All.
 SHARE SCREEN
 Can't Open All Settings
 Can't See menu of chat in server
+Don't work activity
 ![image](https://github.com/user-attachments/assets/2f086701-5003-4df9-9251-e3b58544b13d)
+
+![image](https://github.com/user-attachments/assets/3bbb50fb-5417-4801-abbb-0b468b7a9b0c)
 
 we are trying our best to fix the errors, if you find an error, then Help-Telegram Support
 
