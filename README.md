@@ -21,7 +21,8 @@ That's All.
 
 
 # ⚠️⚠️⚠️ERRORS THAT WE KNOW ⚠️⚠️⚠️
-SHARE SCREEN
+SHARE SCREEN,
+
 Can't Open All Settings,
 
 Can't See menu of chat in server,
