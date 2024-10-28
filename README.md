@@ -32,7 +32,7 @@ Don't work activity
 we are trying our best to fix the errors, if you find an error, then Help-Telegram Support
 
 # What ways can I bypass the locks ❓
-1. Proxy (Http, Socks5) 2. Vpn (in the future) 3. GoodBye Dpi (in the future)
+1. Proxy (Http, Socks5) 2. Vpn (WireGuard/OpenVpn in the future) 3. GoodBye Dpi (in the future)
 
 # We will develop the code to the end, and for this we need your support 👷‍♂️
 We will be very grateful if you give us your feedback
