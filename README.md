@@ -22,8 +22,11 @@ That's All.
 
 
 # ⚠️⚠️⚠️ERRORS THAT WE KNOW ⚠️⚠️⚠️
-        1. SHARE SCREEN
-    2. Can't Open All Settings
+SHARE SCREEN
+Can't Open All Settings
+Can't See menu of chat in server
+![image](https://github.com/user-attachments/assets/2f086701-5003-4df9-9251-e3b58544b13d)
+
 we are trying our best to fix the errors, if you find an error, then Help-Telegram Support
 
 # What ways can I bypass the locks ❓
