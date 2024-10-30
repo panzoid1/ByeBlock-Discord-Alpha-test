@@ -18,6 +18,7 @@ from PyQt5.QtNetwork import QNetworkProxy
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget
 from PyQt5.QtGui import QKeySequence
+from PyQt5.QtGui import QIcon
 
 class PingWorker(QThread):
     ping_signal = pyqtSignal(float)
@@ -93,16 +94,16 @@ class DiscordBrowser(QMainWindow):
         self.settings.setFallbacksEnabled(False)
         self.app = app
 
+        # Set window icon
+        self.setWindowIcon(QIcon("app.ico"))
+
         if self.settings.value("proxy/connect_automatically", False, type=bool):
             self.apply_proxy_from_settings()
 
         self.initUI()
-
-        # Initialize access permissions
         self.microphone_enabled = self.settings.value("Access/Microphone", False, type=bool)
         self.camera_enabled = self.settings.value("Access/Camera", False, type=bool)
         self.screen_share_enabled = self.settings.value("Access/Screen", False, type=bool)
-
         self.check_access()
 
     def initUI(self):
