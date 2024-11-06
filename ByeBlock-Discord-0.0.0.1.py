@@ -19,6 +19,8 @@ import pyqtgraph as pg
 from pyqtgraph import PlotWidget
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtCore import QUrl
 
 class PingWorker(QThread):
     ping_signal = pyqtSignal(float)
@@ -304,10 +306,10 @@ class DiscordBrowser(QMainWindow):
 
 class WebEnginePage(QWebEnginePage):
     def acceptNavigationRequest(self, url, _type, is_main_frame):
-        if url.toString().startswith("https://discord.com"):
-            return super().acceptNavigationRequest(url, _type, is_main_frame)
-        else:
+        if _type == QWebEnginePage.NavigationTypeLinkClicked:
+            QDesktopServices.openUrl(url)  # Open in the default web browser
             return False
+        return super().acceptNavigationRequest(url, _type, is_main_frame)
 
 class ProxyApp(QMainWindow):
     def __init__(self):
