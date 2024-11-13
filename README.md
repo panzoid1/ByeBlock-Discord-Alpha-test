@@ -41,5 +41,3 @@ We will be very grateful if you give us your feedback
 
 # Your favorite SouthEast 💗
 Thank you for testing 💘
-
-Guys, sorry for the delay, but my laptop broke down and I sent it in for service. 
