@@ -10,17 +10,26 @@ from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QMessageBox, QAction, QMenu, 
     QMenuBar, QWidget, QDialog, QDialogButtonBox, QVBoxLayout, 
     QLabel, QSpinBox, QLineEdit, QComboBox, QCheckBox, 
-    QPushButton, QTabWidget
+    QPushButton, QTabWidget, QSystemTrayIcon
 )
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage, QWebEngineSettings
-from PyQt5.QtGui import QPalette, QColor, QDesktopServices
+from PyQt5.QtGui import QPalette, QColor, QDesktopServices, QIcon
 from PyQt5.QtNetwork import QNetworkProxy
-import pyqtgraph as pg
-from pyqtgraph import PlotWidget
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtGui import QIcon
-from PyQt5.QtGui import QDesktopServices
+from pyqtgraph import PlotWidget, mkPen 
+import pyqtgraph as pg
+from PyQt5.QtCore import QCoreApplication
+import webbrowser
+import sys
 from PyQt5.QtCore import QUrl
+from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
+
+########################################
+########################################
+#####            LIBRARY           #####
+########################################
+########################################
 
 class PingWorker(QThread):
     ping_signal = pyqtSignal(float)
@@ -48,7 +57,7 @@ class PingWorker(QThread):
 
         try:
             start_time = time.time()
-            response = requests.get("http://discord.com/app", proxies=proxies, timeout=5)
+            response = requests.get("https://discord.com/app", proxies=proxies, timeout=5)
             response.raise_for_status()
             return (time.time() - start_time) * 1000
         except (requests.exceptions.RequestException, requests.exceptions.Timeout):
@@ -58,7 +67,7 @@ class ProxyPingGraph(QWidget):
     def __init__(self, get_proxy_info):
         super().__init__()
         self.get_proxy_info = get_proxy_info
-
+        
         self.graphWidget = PlotWidget()
         layout = QVBoxLayout()
         layout.addWidget(self.graphWidget)
@@ -90,6 +99,17 @@ class ProxyPingGraph(QWidget):
         self.data_line.setData(self.x, self.y)
 
 class DiscordBrowser(QMainWindow):
+    def capture_screen(self):
+        # Capture screen content
+        screen = QApplication.primaryScreen()
+        screenshot = screen.grabWindow(0)
+        screenshot.save("screenshot.png", "png")  # Save or use the screenshot
+        
+        # Display the screenshot in your app (optional)
+        label = QLabel(self)
+        label.setPixmap(screenshot)
+        label.show()
+
     def __init__(self, app):
         super().__init__()
         self.settings = QSettings("Settings.ini", QSettings.IniFormat)
@@ -108,9 +128,91 @@ class DiscordBrowser(QMainWindow):
         self.screen_share_enabled = self.settings.value("Access/Screen", False, type=bool)
         self.check_access()
 
+        # Setup system tray
+        self.tray_icon = QSystemTrayIcon(QIcon("app.ico"), self)
+        self.tray_icon.setToolTip("ByeBlock Discord")
+        self.tray_icon.activated.connect(self.tray_icon_activated)
+
+        # Create context menu for the tray icon
+        tray_menu = QMenu()
+
+        # Reload action
+        reload_action = QAction("Reload", self)
+        reload_action.triggered.connect(self.view.reload)  # This line triggers page reload
+        tray_menu.addAction(reload_action)
+
+        # All Settings action
+        all_settings_action = QAction("All Settings", self)
+        all_settings_action.triggered.connect(self.open_all_settings)
+        tray_menu.addAction(all_settings_action)
+
+        # Proxy action
+        proxy_action = QAction("Proxy", self)
+        proxy_action.triggered.connect(self.show_proxy_dialog)
+        tray_menu.addAction(proxy_action)
+
+        # Exit action
+        exit_action = QAction("Exit", self)
+        exit_action.triggered.connect(self.exit_app)
+        tray_menu.addAction(exit_action)
+
+        self.tray_icon.setContextMenu(tray_menu)
+        self.tray_icon.show()
+
+
+    def exit_app(self):
+        self.tray_icon.hide()  # Скрыть иконку в системном трее
+        self.close()           # Закрыть главное окно
+        QCoreApplication.quit()
+
+    def create_menu(self):
+        menubar = self.menuBar()
+        main_menu = menubar.addMenu('Main')
+        settings_menu = menubar.addMenu('Settings')
+        help_menu = menubar.addMenu('Help')
+
+        # Reload action
+        refresh_action = QAction('Refresh', self)
+        refresh_action.triggered.connect(self.refresh_page)
+        main_menu.addAction(refresh_action)
+
+        # Exit action
+        exit_action = QAction('Exit', self)
+        exit_action.triggered.connect(self.exit_app)
+        main_menu.addAction(exit_action)
+
+        # Resolution action
+        resolution_action = QAction('Resolution', self)
+        resolution_action.triggered.connect(self.show_resolution_dialog)
+        settings_menu.addAction(resolution_action)
+
+        # Proxy action
+        proxy_action = QAction('Proxy Add', self)
+        proxy_action.triggered.connect(self.show_proxy_dialog)
+        settings_menu.addAction(proxy_action)
+
+        # All Settings action
+        all_action = QAction('All Settings', self)
+        all_action.triggered.connect(self.open_all_settings)
+        settings_menu.addAction(all_action)
+
+        # Help action for Telegram Support
+        telegram_action = QAction('Telegram Support', self)
+        telegram_action.triggered.connect(self.open_telegram)
+        help_menu.addAction(telegram_action)
+
+
+    def open_all_settings(self):
+        """Display the full settings window."""
+        self.proxy_app = ProxyApp()
+        self.proxy_app.show()
+
+
+
+
     def initUI(self):
-        self.setWindowTitle('ByeBlock-Discord-0.0.0.1')
-        
+        self.setWindowTitle('ByeBlock-Discord-0.0.0.2')
+
         # Load saved window size
         width = self.settings.value("window/width", 800, type=int)
         height = self.settings.value("window/height", 600, type=int)
@@ -125,7 +227,7 @@ class DiscordBrowser(QMainWindow):
         settings.setAttribute(QWebEngineSettings.JavascriptEnabled, True)
         settings.setAttribute(QWebEngineSettings.JavascriptCanOpenWindows, True)
         settings.setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
-        
+
         # Developer tools shortcut
         dev_tools_action = QAction(self)
         dev_tools_action.setShortcut(QKeySequence("Alt+F12"))
@@ -136,6 +238,21 @@ class DiscordBrowser(QMainWindow):
         self.set_dark_theme()
         self.create_menu()
         self.show()
+
+    def tray_icon_activated(self, reason):
+        if reason == QSystemTrayIcon.Trigger:
+            self.show()
+            self.activateWindow()
+
+    def closeEvent(self, event):
+        self.worker.quit()  # Завершаем потоки
+        self.worker.wait()  # Ждем завершения потока
+        event.ignore()      # Игнорируем стандартное закрытие
+        self.hide()         # Скрываем окно
+
+    def exit_app(self):
+        self.tray_icon.hide()  # Hide the tray icon
+        self.close()  # Close the application
 
     def show_dev_tools(self):
         self.view.page().setDevToolsPage(QWebEnginePage())  # Create a DevTools page if none exists
@@ -318,20 +435,22 @@ class ProxyApp(QMainWindow):
         self.setGeometry(200, 200, 600, 400)
         self.setStyleSheet("background-color: #0F110D; color: White;")
         
+        self.setWindowIcon(QIcon("app.ico"))
+
         self.settings = QSettings("Settings.ini", QSettings.IniFormat)
 
         self.tabs = QTabWidget()
         self.tabs.setStyleSheet("""
             QTabWidget::pane { 
-                background-color: #000000;  /* Цвет фона вкладок */
+                background-color: #000000;
             }
             QTabBar::tab {
-                background: #707070;  /* Цвет фона каждой вкладки */
-                color: white;         /* Цвет текста вкладки */
-                padding: 5px;       /* Отступы внутри вкладки */
+                background: #707070;
+                color: white; 
+                padding: 5px;      
             }
             QTabBar::tab:selected {
-                background: #909090; /* Цвет фона активной вкладки */
+                background: #909090;
             }
         """)
         self.setCentralWidget(self.tabs)
@@ -463,7 +582,7 @@ class ProxyApp(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)
-    
+
     palette = QPalette()
     palette.setColor(QPalette.Window, QColor("#0F110D"))
     palette.setColor(QPalette.WindowText, Qt.white)
