@@ -1,35 +1,43 @@
-import sys
-import os
-import subprocess
-import requests
-import time
-from PyQt5.QtCore import (
-    QUrl, QSettings, QThread, pyqtSignal, Qt
-)
-from PyQt5.QtWidgets import (
-    QApplication, QMainWindow, QMessageBox, QAction, QMenu, 
-    QMenuBar, QWidget, QDialog, QDialogButtonBox, QVBoxLayout, 
-    QLabel, QSpinBox, QLineEdit, QComboBox, QCheckBox, 
-    QPushButton, QTabWidget, QSystemTrayIcon
-)
-from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage, QWebEngineSettings
-from PyQt5.QtGui import QPalette, QColor, QDesktopServices, QIcon
-from PyQt5.QtNetwork import QNetworkProxy
-from PyQt5.QtGui import QKeySequence
-from pyqtgraph import PlotWidget, mkPen 
-import pyqtgraph as pg
-from PyQt5.QtCore import QCoreApplication
-import webbrowser
-import sys
-from PyQt5.QtCore import QUrl
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
-
-########################################
-########################################
-#####            LIBRARY           #####
-########################################
-########################################
+#--------------------------------------------------------------------------------------------------#|
+####################################################################################################|
+####################################################################################################|
+##################################            LIBRARY           ####################################|
+####################################################################################################|
+####################################################################################################|
+                                                                                                   #| 
+import sys                                                                                         #| 
+import os                                                                                          #|
+import subprocess                                                                                  #|
+import requests                                                                                    #|
+import time                                                                                        #|
+from PyQt5.QtCore import (                                                                         #|
+    QUrl, QSettings, QThread, pyqtSignal, Qt                                                       #|
+)                                                                                                  #|
+from PyQt5.QtWidgets import (                                                                      #|
+    QApplication, QMainWindow, QMessageBox, QAction, QMenu,                                        #|
+    QMenuBar, QWidget, QDialog, QDialogButtonBox, QVBoxLayout,                                     #|
+    QLabel, QSpinBox, QLineEdit, QComboBox, QCheckBox,                                             #|
+    QPushButton, QTabWidget, QSystemTrayIcon                                                       #|
+)                                                                                                  #|
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage, QWebEngineSettings            #|
+from PyQt5.QtGui import QPalette, QColor, QDesktopServices, QIcon                                  #|
+from PyQt5.QtNetwork import QNetworkProxy                                                          #|
+from PyQt5.QtGui import QKeySequence                                                               #|
+from pyqtgraph import PlotWidget, mkPen                                                            #|
+import pyqtgraph as pg                                                                             #|
+from PyQt5.QtCore import QCoreApplication                                                          #|
+import webbrowser                                                                                  #|
+import sys                                                                                         #|
+from PyQt5.QtCore import QUrl                                                                      #|
+from PyQt5.QtWidgets import QApplication, QMainWindow                                              #|
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage                                #|
+                                                                                                   #|
+####################################################################################################|
+####################################################################################################|
+####################################################################################################|
+####################################################################################################|
+####################################################################################################|
+#--------------------------------------------------------------------------------------------------#|
 
 class PingWorker(QThread):
     ping_signal = pyqtSignal(float)
