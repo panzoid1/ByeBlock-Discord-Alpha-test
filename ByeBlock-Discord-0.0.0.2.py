@@ -253,10 +253,12 @@ class DiscordBrowser(QMainWindow):
             self.activateWindow()
 
     def closeEvent(self, event):
-        self.worker.quit()  # Завершаем потоки
-        self.worker.wait()  # Ждем завершения потока
-        event.ignore()      # Игнорируем стандартное закрытие
-        self.hide()         # Скрываем окно
+        if hasattr(self, 'worker') and self.worker is not None:
+            self.worker.quit()  # Завершаем потоки
+            self.worker.wait()  # Ждем завершения потока
+        event.ignore()  # Игнорируем стандартное закрытие
+        self.hide()      # Скрываем окно
+
 
     def exit_app(self):
         self.tray_icon.hide()  # Hide the tray icon
