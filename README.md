@@ -6,7 +6,7 @@ For the start i wanna say, this isn't ready version more function isn't availabl
 I will be updating project and once this will full project for use I let you know
 
 📌So, let's get to the point,
-1 just open it ByeBlock-Discord-0.0.0.1.exe
+1 just open it ByeBlock-Discord-0.0.0.2.exe
 2 Settings-Add Proxy and add proxy
 3 Main-Reload
 4 Log in to your account
